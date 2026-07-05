@@ -108,7 +108,7 @@ const Home = () => {
     return (
         <main className="container mx-auto px-4 py-8">
             <div className="mb-8 text-center">
-                <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl transition-colors">
                     Discover Your Next Stay
                 </h2>
             </div>
@@ -116,9 +116,9 @@ const Home = () => {
             <FilterBar filters={filters} onFilterChange={handleFilterUpdate} />
 
             {loading ? (
-                <div className="text-center py-20 text-xl font-bold text-blue-600">Updating results...</div>
+                <div className="text-center py-20 text-xl font-bold text-blue-600 dark:text-blue-400">Updating results...</div>
             ) : hotels.length === 0 ? (
-                <div className="text-center py-20 text-gray-500 text-lg">No hotels match your parameters.</div>
+                <div className="text-center py-20 text-gray-500 dark:text-gray-400 text-lg">No hotels match your parameters.</div>
             ) : (
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -133,8 +133,8 @@ const Home = () => {
                                 onClick={() => setSkip(Math.max(0, skip - LIMIT))}
                                 disabled={currentPage === 1}
                                 className={`px-4 py-2 rounded-md font-medium transition-colors ${currentPage === 1
-                                    ? 'text-gray-400 cursor-not-allowed'
-                                    : 'text-gray-700 hover:bg-gray-100'
+                                    ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 &larr; Prev
@@ -149,8 +149,8 @@ const Home = () => {
                                         className={`w-10 h-10 flex items-center justify-center rounded-md font-semibold transition-colors ${page === currentPage
                                             ? 'bg-blue-600 text-white shadow-md'
                                             : page === '...'
-                                                ? 'text-gray-400 cursor-default'
-                                                : 'text-gray-700 hover:bg-gray-200'
+                                                ? 'text-gray-400 dark:text-gray-600 cursor-default'
+                                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800'
                                             }`}
                                     >
                                         {page}
@@ -162,8 +162,8 @@ const Home = () => {
                                 onClick={() => setSkip(skip + LIMIT)}
                                 disabled={currentPage === totalPages}
                                 className={`px-4 py-2 rounded-md font-medium transition-colors ${currentPage === totalPages
-                                    ? 'text-gray-400 cursor-not-allowed'
-                                    : 'text-gray-700 hover:bg-gray-100'
+                                    ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 Next &rarr;

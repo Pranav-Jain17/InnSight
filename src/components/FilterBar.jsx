@@ -5,27 +5,27 @@ const FilterBar = ({ filters, onFilterChange }) => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col gap-6">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8 flex flex-col gap-6 transition-colors duration-300">
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Search</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Search</label>
                     <input
                         type="text"
                         name="search"
                         value={filters.search}
                         onChange={handleChange}
                         placeholder="Search hotels by name/location"
-                        className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                     />
                 </div>
 
                 <div className="md:w-48">
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Location</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Location</label>
                     <select
                         name="location"
                         value={filters.location}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                     >
                         <option value="">All Locations</option>
                         <option value="Mumbai">Mumbai</option>
@@ -37,12 +37,12 @@ const FilterBar = ({ filters, onFilterChange }) => {
                 </div>
 
                 <div className="md:w-48">
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Sort By</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Sort By</label>
                     <select
                         name="sort"
                         value={filters.sort}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                     >
                         <option value="">Default</option>
                         <option value="price">Price: Low to High</option>
@@ -53,21 +53,21 @@ const FilterBar = ({ filters, onFilterChange }) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-100 dark:border-gray-700 transition-colors">
                 <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Exact Price</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Exact Price</label>
                     <input
                         type="number"
                         name="price"
                         value={filters.price}
                         onChange={handleChange}
                         placeholder="e.g. 2000"
-                        className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Exact Rating</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Exact Rating</label>
                     <input
                         type="number"
                         step="0.1"
@@ -77,12 +77,12 @@ const FilterBar = ({ filters, onFilterChange }) => {
                         value={filters.rating}
                         onChange={handleChange}
                         placeholder="e.g. 4.5"
-                        className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Price Limits</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Price Limits</label>
                     <div className="flex gap-2">
                         <input
                             type="number"
@@ -90,7 +90,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
                             value={filters.minPrice}
                             onChange={handleChange}
                             placeholder="Min"
-                            className="w-1/2 border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-1/2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                         />
                         <input
                             type="number"
@@ -98,13 +98,13 @@ const FilterBar = ({ filters, onFilterChange }) => {
                             value={filters.maxPrice}
                             onChange={handleChange}
                             placeholder="Max"
-                            className="w-1/2 border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-1/2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Star Rating Range</label>
+                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1">Star Rating Range</label>
                     <div className="flex gap-2">
                         <input
                             type="number"
@@ -115,7 +115,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
                             value={filters.minRating}
                             onChange={handleChange}
                             placeholder="Min ★"
-                            className="w-1/2 border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-1/2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                         />
                         <input
                             type="number"
@@ -126,7 +126,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
                             value={filters.maxRating}
                             onChange={handleChange}
                             placeholder="Max ★"
-                            className="w-1/2 border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-1/2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
                         />
                     </div>
                 </div>
