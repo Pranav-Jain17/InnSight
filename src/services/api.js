@@ -12,3 +12,14 @@ export const fetchHotels = async () => {
         return [];
     }
 };
+
+export const fetchHotelById = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}${id}/`);
+        if (!response.ok) throw new Error('Failed to fetch hotel details');
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
