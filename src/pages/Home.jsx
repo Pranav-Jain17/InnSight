@@ -20,45 +20,55 @@ const Home = () => {
     });
 
     const [skip, setSkip] = useState(0);
-    const LIMIT = 8;
+    const [totalItems, setTotalItems] = useState(0);
+    const LIMIT = 20;
+    const currentPage = Math.floor(skip / LIMIT) + 1;
+    const totalPages = Math.ceil(totalItems / LIMIT);
 
     useEffect(() => {
         const loadHotels = async () => {
             setLoading(true);
 
-            const queryParams = new URLSearchParams();
+            try {
+                const queryParams = new URLSearchParams();
 
-            // 1. Text Search & Dropdown Filters
-            if (filters.search) queryParams.append('search', filters.search);
-            if (filters.location) queryParams.append('location', filters.location);
-            if (filters.sort) queryParams.append('order_by', filters.sort);
+                // 1. Text Search & Dropdown Filters
+                if (filters.search) queryParams.append('search', filters.search);
+                if (filters.location) queryParams.append('location', filters.location);
+                if (filters.sort) queryParams.append('order_by', filters.sort);
 
-            // 2. Price Filters (Exact and Range)
-            if (filters.price) queryParams.append('price', filters.price);
-            if (filters.minPrice) queryParams.append('min_price', filters.minPrice);
-            if (filters.maxPrice) queryParams.append('max_price', filters.maxPrice);
+                // 2. Price Filters (Exact and Range)
+                if (filters.price) queryParams.append('price', filters.price);
+                if (filters.minPrice) queryParams.append('min_price', filters.minPrice);
+                if (filters.maxPrice) queryParams.append('max_price', filters.maxPrice);
 
-            // 3. Rating Filters (Exact and Range)
-            if (filters.rating) queryParams.append('rating', filters.rating);
-            if (filters.minRating) queryParams.append('min_rating', filters.minRating);
-            if (filters.maxRating) queryParams.append('max_rating', filters.maxRating);
+                // 3. Rating Filters (Exact and Range)
+                if (filters.rating) queryParams.append('rating', filters.rating);
+                if (filters.minRating) queryParams.append('min_rating', filters.minRating);
+                if (filters.maxRating) queryParams.append('max_rating', filters.maxRating);
 
-            // 4. Limit / Skip Pagination Parameters
-            queryParams.append('limit', LIMIT);
-            queryParams.append('skip', skip);
+                // 4. Limit / Skip Pagination Parameters
+                queryParams.append('limit', LIMIT);
+                queryParams.append('skip', skip);
 
-            const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
-            const data = await fetchHotels(queryString);
+                const queryString = queryParams.toString() ? `/?${queryParams.toString()}` : '/';
+                const data = await fetchHotels(queryString);
 
-            if (data && data.data) {
-                setHotels(data.data);
-            } else if (Array.isArray(data)) {
-                setHotels(data);
-            } else {
-                setHotels([]);
+                if (data && data.data) {
+                    setHotels(data.data);
+                    setTotalItems(data.count || 0);
+                } else if (Array.isArray(data)) {
+                    setHotels(data);
+                    setTotalItems(data.length);
+                } else {
+                    setHotels([]);
+                    setTotalItems(0);
+                }
+            } catch (error) {
+                console.error("error: ", error);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         };
 
         loadHotels();
@@ -67,6 +77,32 @@ const Home = () => {
     const handleFilterUpdate = (newFilters) => {
         setFilters(newFilters);
         setSkip(0);
+    };
+
+    const getPageNumbers = () => {
+        const pages = [];
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            if (currentPage <= 4) {
+                for (let i = 1; i <= 5; i++) pages.push(i);
+                pages.push('...');
+                pages.push(totalPages);
+            } else if (currentPage >= totalPages - 3) {
+                pages.push(1);
+                pages.push('...');
+                for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+            } else {
+                pages.push(1);
+                pages.push('...');
+                pages.push(currentPage - 1);
+                pages.push(currentPage);
+                pages.push(currentPage + 1);
+                pages.push('...');
+                pages.push(totalPages);
+            }
+        }
+        return pages;
     };
 
     return (
@@ -91,33 +127,49 @@ const Home = () => {
                         ))}
                     </div>
 
-                    <div className="flex justify-center items-center mt-12 gap-6">
-                        <button
-                            onClick={() => setSkip(Math.max(0, skip - LIMIT))}
-                            disabled={skip === 0}
-                            className={`px-6 py-2 rounded-md font-semibold transition-colors ${skip === 0
-                                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
-                                }`}
-                        >
-                            &larr; Previous
-                        </button>
+                    {totalPages > 1 && (
+                        <div className="flex justify-center items-center mt-12 space-x-2">
+                            <button
+                                onClick={() => setSkip(Math.max(0, skip - LIMIT))}
+                                disabled={currentPage === 1}
+                                className={`px-4 py-2 rounded-md font-medium transition-colors ${currentPage === 1
+                                    ? 'text-gray-400 cursor-not-allowed'
+                                    : 'text-gray-700 hover:bg-gray-100'
+                                    }`}
+                            >
+                                &larr; Prev
+                            </button>
 
-                        <span className="text-gray-700 font-medium">
-                            Page {(skip / LIMIT) + 1}
-                        </span>
+                            <div className="flex space-x-1">
+                                {getPageNumbers().map((page, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => page !== '...' && setSkip((page - 1) * LIMIT)}
+                                        disabled={page === '...'}
+                                        className={`w-10 h-10 flex items-center justify-center rounded-md font-semibold transition-colors ${page === currentPage
+                                            ? 'bg-blue-600 text-white shadow-md'
+                                            : page === '...'
+                                                ? 'text-gray-400 cursor-default'
+                                                : 'text-gray-700 hover:bg-gray-200'
+                                            }`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                            </div>
 
-                        <button
-                            onClick={() => setSkip(skip + LIMIT)}
-                            disabled={hotels.length < LIMIT}
-                            className={`px-6 py-2 rounded-md font-semibold transition-colors ${hotels.length < LIMIT
-                                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
-                                }`}
-                        >
-                            Next &rarr;
-                        </button>
-                    </div>
+                            <button
+                                onClick={() => setSkip(skip + LIMIT)}
+                                disabled={currentPage === totalPages}
+                                className={`px-4 py-2 rounded-md font-medium transition-colors ${currentPage === totalPages
+                                    ? 'text-gray-400 cursor-not-allowed'
+                                    : 'text-gray-700 hover:bg-gray-100'
+                                    }`}
+                            >
+                                Next &rarr;
+                            </button>
+                        </div>
+                    )}
                 </>
             )}
         </main>
