@@ -1,8 +1,8 @@
 const API_URL = 'https://demohotelsapi.pythonanywhere.com/hotels/';
 
-export const fetchHotels = async () => {
+export const fetchHotels = async (queryString = '') => {
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(`${API_URL}${queryString}`);
         if (!response.ok) {
             throw new Error('Network response failed');
         }
